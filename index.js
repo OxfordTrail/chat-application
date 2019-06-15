@@ -35,14 +35,15 @@ mongo.connect(dbUrl, (err, db)=>{
         //Handle input events 
         socket.on('input', (data)=>{
             let name = data.name;
-            let messages = data.messages;
+            let message = data.message;
 
             //check for name and message 
             if (name == '' || message == '') {
                 //Send error status
+                sendStatus('Please enter a name and message ');
             } else{
                 //Insert message 
-                chat.listen({
+                chat.insertOne({
                     name: name,
                     message: message
                 }, ()=>{
@@ -59,7 +60,7 @@ mongo.connect(dbUrl, (err, db)=>{
         //Handle clear 
         socket.on('clear', (data)=>{
             //Remove all chat from collection
-            chat.remove({}, ()=>{
+            chat.deleteMany({}, ()=>{
                 //Emit cleared
                 socket.emit('cleared');
             })
