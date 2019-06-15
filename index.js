@@ -5,6 +5,7 @@ const client = require('socket.io').listen(4000).sockets;
 const dotenv = require('dotenv');
 dotenv.config();
 const dbUrl = process.env.DB_HOST;
+const dbName = process.env.DB_NAME;
 
 
 mongo.connect(dbUrl, (err, db)=>{
@@ -12,11 +13,9 @@ mongo.connect(dbUrl, (err, db)=>{
         throw err
     }
     console.log('Connected to Database successfully');
-
     //Connect to socket.io
-
-    client.on('connection', ()=>{
-        let chat = db.collection('chats');
+    client.on('connection', (socket)=>{
+        let chat = db.db(dbName).collection("chats");
 
         //create function to send status 
         sendStatus = (s) =>{
