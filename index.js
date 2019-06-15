@@ -3,6 +3,7 @@ const app = express();
 const mongo = require('mongodb').MongoClient;
 const client = require('socket.io').listen(4000).sockets;
 const dotenv = require('dotenv');
+app.use(express.static('./public/')); 
 dotenv.config();
 const dbUrl = process.env.DB_HOST;
 const dbName = process.env.DB_NAME;
@@ -67,3 +68,7 @@ mongo.connect(dbUrl, (err, db)=>{
         })
     });
 });
+
+app.listen(4001, ()=>{
+    console.log('Server listening on 4001');
+})

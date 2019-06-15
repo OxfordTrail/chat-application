@@ -6,13 +6,19 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+        <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
         <title>Chat App</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
         <style>
-            #messages{height: 300px;}
+            #messages{height: 300px;
+                      overflow-y: auto;}
+            #status{
+                font-size: 20px;
+            }
         </style>
     </head>
     <body>
@@ -24,10 +30,10 @@
                 <div class="col-md-6 offset-md-3 col-sm-12">
                     <h1 class="text-centre">
                         MongoChat
-                        <button id="clear" class="btn btn-danger">
+                        <button id="clear" class="btn btn-raised btn-warning">
                             Clear
                         </button>
-                        <div id="status"></div>
+                        <br>
                         <div id="chat">
                             <input type="text" id="username"
                             class="form-control" placeholder="Enter name..">
@@ -39,6 +45,7 @@
                             <br>
                             <textarea id="textarea" class="form-control"
                             placeholder="Enter message..."></textarea>
+                            <div id="status"></div>
                         </div>
                     </h1>
                 </div>
@@ -82,16 +89,17 @@
                     console.log("Connected to server....");
 
                     socket.on('output',(data)=>{
-                        console.log(data);
                         if (data.length) {
                             for(var x =0; x < data.length; x++){
                                 //Build out messaage div
 
                                 var message = document.createElement('div');
                                 message.setAttribute('class', 'chat-message');
+                                message.setAttribute('id', 'chat-message');
                                 message.textContent = data[x].name+": "+data[x].message;
                                 messages.appendChild(message);
-                                messages.insertBefore(message, messages.firstChild);
+                                // messages.insertBefore(message, messages.firstChild);
+
                             }
                         }
                     });
