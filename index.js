@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
-const mongo = require('mongodb').MongoClient;
-const client = require('socket.io').listen(4000).sockets;
 const dotenv = require('dotenv');
-app.use(express.static('./public/')); 
 dotenv.config();
+const mongo = require('mongodb').MongoClient; 
+const PORT = process.env.PORT;
+const SOCKET_PORT= process.env.SOCKET_PORT;
+const client = require('socket.io').listen(SOCKET_PORT).sockets;
+app.use(express.static('./public/')); 
 const dbUrl = process.env.DB_HOST;
 const dbName = process.env.DB_NAME;
 
@@ -69,6 +71,6 @@ mongo.connect(dbUrl, (err, db)=>{
     });
 });
 
-app.listen(4001, ()=>{
+app.listen(PORT, ()=>{
     console.log('Server listening on 4001');
 })
